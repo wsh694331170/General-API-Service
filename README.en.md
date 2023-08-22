@@ -1,5 +1,24 @@
 # General-API-Service
 
+## Installation
+
+```bash
+$ yarn
+```
+
+## Running the app
+
+```bash
+# development
+$ yarn start
+
+# watch mode
+$ yarn start:dev
+
+# production mode
+$ yarn start:prod
+```
+
 #### Description
 {**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
 

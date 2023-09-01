@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { getCityList, getIdCardInfo, getIpInfo, getMobilePhoneInfo, getHistoryToday } from '../../api'
+import { getCityList, getIdCardInfo, getIpInfo, getMobilePhoneInfo, getHistoryToday, getVerifyCodeImg } from '../../api'
+import { GetVerifyCodeImgDto } from '../dto'
 
 @Injectable()
 export class GeneralApiService {
@@ -21,6 +22,10 @@ export class GeneralApiService {
   }
   async getHistoryToday(type: number): Promise<any> {
     const res = await getHistoryToday(type)
+    return res;
+  }
+  async getVerifyCodeImg(params: GetVerifyCodeImgDto): Promise<any> {
+    const res = await getVerifyCodeImg(params)
     return res;
   }
 }

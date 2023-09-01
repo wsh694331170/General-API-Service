@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { GeneralApiService } from '../providers/general-api.service';
-import { GetIdCardInfoDto, GetMobilePhoneInfoDto, GetHistoryTodayDto } from '../dto'
+import { GetIdCardInfoDto, GetMobilePhoneInfoDto, GetHistoryTodayDto, GetVerifyCodeImgDto } from '../dto'
 
 @ApiTags('通用API')
 @Controller('/general-api')
@@ -39,5 +39,11 @@ export class GeneralApiController {
   async getHistoryToday(@Query() query: GetHistoryTodayDto): Promise<any> {
     const type = query.type || 0;
     return this.generalApiService.getHistoryToday(type);
+  }
+
+  @ApiOperation({ summary: '获取随机图片验证码' })
+  @Get('/getVerifyCodeImg')
+  async getVerifyCodeImg(@Query() query: GetVerifyCodeImgDto): Promise<any> {
+    return this.generalApiService.getVerifyCodeImg(query);
   }
 }

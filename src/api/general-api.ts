@@ -1,4 +1,5 @@
 import { generalAPIClient } from '../client'
+import { GetVerifyCodeImgDto } from '../general-api/dto'
 
 export const getCityList = async () => {
   const res = await generalAPIClient.get('/address/list')
@@ -18,5 +19,9 @@ export const getMobilePhoneInfo = async (mobilePhone: string) => {
 }
 export const getHistoryToday = async (type: number) => {
   const res = await generalAPIClient.get(`/history/today?type=${type}`)
+  return res
+}
+export const getVerifyCodeImg = async (params: GetVerifyCodeImgDto) => {
+  const res = await generalAPIClient.get(`/verifycode/code`, { params });
   return res
 }

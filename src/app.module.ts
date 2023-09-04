@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { GeneralApiModule } from './general-api'
+import { GeneralApiModule } from './general-api';
 
 @Module({
   imports: [GeneralApiModule],

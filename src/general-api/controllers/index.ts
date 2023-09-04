@@ -1,1 +1,1 @@
-export * from './general-api.controller'
+export * from './general-api.controller';

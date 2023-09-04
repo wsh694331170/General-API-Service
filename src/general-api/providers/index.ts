@@ -1,1 +1,1 @@
-export * from './general-api.service'
+export * from './general-api.service';

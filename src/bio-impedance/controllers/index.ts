@@ -1,1 +1,1 @@
-export * from './general-api.controller';
+export * from './bio-impedance.controller';

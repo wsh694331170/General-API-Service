@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
-const DATA_FILE = path.join(__dirname, 'data.json');
+const DATA_FILE = 'data.json';
+const successBack = (data: any) => {
+  return {
+    code: 200,
+    message: 'success',
+    data,
+  };
+};
 
 export interface BioImpedanceRecord {
   id: string;
@@ -13,6 +19,12 @@ export interface BioImpedanceRecord {
   updateTime: string;
   details: string;
   conclusion: string;
+}
+
+export interface SuccessBack<T> {
+  code: number;
+  message: string;
+  data: T;
 }
 
 @Injectable()
@@ -34,15 +46,15 @@ export class BioImpedanceService {
     fs.writeFileSync(DATA_FILE, JSON.stringify(this.records, null, 2), 'utf8');
   }
 
-  findAll(): BioImpedanceRecord[] {
-    return this.records;
+  findAll(): SuccessBack<BioImpedanceRecord[]> {
+    return successBack(this.records);
   }
 
-  findOne(id: string): BioImpedanceRecord | undefined {
-    return this.records.find((record) => record.id === id);
+  findOne(id: string): SuccessBack<BioImpedanceRecord | undefined> {
+    return successBack(this.records.find((record) => record.id === id));
   }
 
-  create(name: string): BioImpedanceRecord {
+  create(name: string): SuccessBack<boolean> {
     const newRecord: BioImpedanceRecord = {
       id: uuidv4(),
       name,
@@ -54,25 +66,22 @@ export class BioImpedanceService {
     };
     this.records.push(newRecord);
     this.saveData();
-    return newRecord;
+    return successBack(true);
   }
 
-  update(
-    id: string,
-    updates: Partial<BioImpedanceRecord>,
-  ): BioImpedanceRecord | null {
-    const record = this.records.find((r) => r.id === id);
+  update(updates: Partial<BioImpedanceRecord>): SuccessBack<boolean> {
+    const record = this.records.find((r) => r.id === updates.id);
     if (!record) return null;
     Object.assign(record, updates, { updateTime: new Date().toISOString() });
     this.saveData();
-    return record;
+    return successBack(true);
   }
 
-  delete(id: string): boolean {
+  delete(id: string): SuccessBack<boolean> {
     const index = this.records.findIndex((r) => r.id === id);
-    if (index === -1) return false;
+    if (index === -1) return successBack(false);
     this.records.splice(index, 1);
     this.saveData();
-    return true;
+    return successBack(true);
   }
 }

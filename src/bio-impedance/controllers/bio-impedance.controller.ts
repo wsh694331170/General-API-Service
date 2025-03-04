@@ -1,43 +1,32 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { BioImpedanceService, BioImpedanceRecord } from '../providers';
 
-@Controller('bio-impedance')
+@Controller('/bio-impedance')
 export class BioImpedanceController {
   constructor(private readonly service: BioImpedanceService) {}
 
-  @Get()
+  @Get('/queryAll')
   findAll() {
     return this.service.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get('/queryById')
+  findOne(@Query('id') id: string) {
     return this.service.findOne(id);
   }
 
-  @Post()
+  @Post('/add')
   create(@Body() body: { name: string }) {
     return this.service.create(body.name);
   }
 
-  @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updates: Partial<BioImpedanceRecord>,
-  ) {
-    return this.service.update(id, updates);
+  @Post('/update')
+  update(@Body() updates: Partial<BioImpedanceRecord>) {
+    return this.service.update(updates);
   }
 
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.service.delete(id);
+  @Post('/delete')
+  delete(@Body() body: { id: string }) {
+    return this.service.delete(body.id);
   }
 }

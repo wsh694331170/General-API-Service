@@ -43,7 +43,16 @@ export class BioImpedanceService {
   }
 
   private saveData() {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(this.records, null, 2), 'utf8');
+    try {
+      fs.writeFileSync(
+        DATA_FILE,
+        JSON.stringify(this.records, null, 2),
+        'utf8',
+      );
+    } catch (error) {
+      console.error('Error in saveData:', error);
+      throw new Error('Failed to save data'); // 让 create 方法的 try-catch 捕获
+    }
   }
 
   findAll(): SuccessBack<BioImpedanceRecord[]> {
